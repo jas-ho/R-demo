@@ -1,0 +1,62 @@
+---
+title: "R basics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Getting help
+```{r}
+example(summary)  # prints usage examples for the function 'summary'
+?summary  # in Rstudio: opens the help page for the function 'summary'
+help(summary)  # same as 'help(summary)'
+```
+
+## Basic data structures
+Vectors: Lists of elements of the same type. Examples: lists of int, num, dbl, lgl (boolean), date, chr (string)...
+created by `c(elem1, elem2,..)`
+```{r}
+vec1 <- runif(100)  # generates 100 uniformly distributed random numbers in [0,1]
+plot(vec1)
+```
+
+data_frame:
+```{r}
+library(tibble)
+library(lubridate)
+ex1 <- data_frame(
+  vec1 = c(1980, 1990, 2000, 2010),
+  vec2 = c(1L, 2L, 3L, 4L),
+  vec3 = c("low", "low", "high", "high"),
+  vec4 = c(TRUE, FALSE, FALSE, FALSE),
+  vec5 = ymd(c("2017-05-23", "1776/07/04", "1983-05/31", "1908/04-01"))
+)
+ex1
+```
+
+
+## Inspecting a dataframe
+```{r}
+View(ex1)
+names(ex1)
+summary(ex1)
+skimr::skim(ex1)
+glimpse(ex1)
+table(ex1$vec4)
+str(ex1)
+```
+Accessing columns of a dataframe:
+```{r}
+ex1$vec1
+```
+
+## Subsetting and viewing
+```{r}
+ex1[1,]  # tibble/data_frame with only the first row
+ex1[,1]  # tibble/data_frame with only the first column
+ex1[ex1$vec3 == "high", ]  # logical indexing, returns a tibble
+ex1$vec1  # this returns a vector, //not// a tibble/data_frame
+```
+
