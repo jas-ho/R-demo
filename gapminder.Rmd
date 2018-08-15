@@ -1,0 +1,48 @@
+---
+title: "gapminder"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## load gapminder data
+```{r}
+library(gapminder)
+gapminder
+```
+## mean life expectancy
+### using base R
+```{r}
+asia <- gapminder[gapminder$continent == "Asia",]
+mean(asia$lifeExp)
+```
+### using tidyverse: filter, summarize, group_by, mutate, arrange
+```{r}
+library(tidyverse)
+gapminder %>% filter(continent == 'Asia') %>% summarize(mean = mean(lifeExp))
+```
+```{r}
+gapminder %>% filter(continent == 'Asia' | year == 2002) %>% sample_n(8)
+```
+```{r}
+gapminder %>% filter(country %in% c("Argentina", "Belgium", "Mexico"),
+                     year %in% c(1952, 2002))
+```
+```{r}
+summarized <- gapminder %>% 
+  filter(year %in% c(1997, 2002)) %>% 
+  summarize(max_exp = max(lifeExp),
+            sd_exp = sd(lifeExp))
+summarized
+```
+```{r}
+summarized <- gapminder %>% 
+  filter(year == 1997) %>% 
+  group_by(continent) %>% 
+  summarize(max_exp = max(lifeExp),
+            sd_exp = sd(lifeExp))
+summarized
+```
